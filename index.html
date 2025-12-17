@@ -212,6 +212,40 @@
             display: none;
         }
 
+        /* Music Control */
+        .music-toggle {
+            position: fixed;
+            top: 40px;
+            right: 180px;
+            background: rgba(253, 164, 175, 0.1);
+            border: 1px solid rgba(253, 164, 175, 0.3);
+            color: var(--rose-200);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            z-index: 100;
+            pointer-events: auto;
+        }
+
+        .music-toggle:hover {
+            background: rgba(253, 164, 175, 0.2);
+            border-color: var(--rose-400);
+        }
+
+        .music-toggle.muted {
+            opacity: 0.5;
+        }
+
+        .music-toggle.muted .text {
+            text-decoration: line-through;
+        }
+
         /* UI Panels */
         .ui-overlay {
             position: fixed;
@@ -441,6 +475,9 @@
 </head>
 
 <body>
+    <!-- Background Music -->
+    <audio id="bgm" src="bgm.mp3" loop autoplay></audio>
+
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-petals">
@@ -474,6 +511,11 @@
             <h1 class="site-title">Guilin Memories</h1>
             <p class="site-subtitle">A Journey Through Cherry Blossoms</p>
         </div>
+
+        <button id="music-toggle" class="music-toggle">
+            <span class="icon">🎵</span>
+            <span class="text">Music On</span>
+        </button>
 
         <div class="photo-counter">
             <div class="counter-number" id="photo-count">12</div>
@@ -602,6 +644,7 @@
 
                 setupPostProcessing();
                 setupGestureTracking();
+                setupMusic();
                 createAmbientParticles();
 
                 // Start animation loop
@@ -679,6 +722,55 @@
                 CONFIG.bloomThreshold
             );
             composer.addPass(bloomPass);
+        }
+
+        function setupMusic() {
+            const bgm = document.getElementById('bgm');
+            const musicBtn = document.getElementById('music-toggle');
+
+            // Set initial volume
+            bgm.volume = 0.5;
+
+            musicBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (bgm.paused) {
+                    bgm.play().then(() => {
+                        musicBtn.classList.remove('muted');
+                        musicBtn.querySelector('.text').textContent = 'Music On';
+                    }).catch(console.error);
+                } else {
+                    bgm.pause();
+                    musicBtn.classList.add('muted');
+                    musicBtn.querySelector('.text').textContent = 'Music Off';
+                }
+            });
+
+            // Auto-play logic
+            const attemptPlay = () => {
+                bgm.play().then(() => {
+                    // Success
+                    musicBtn.classList.remove('muted');
+                    musicBtn.querySelector('.text').textContent = 'Music On';
+                }).catch(e => {
+                    console.log("Autoplay blocked, waiting for interaction...");
+                    // Interaction fallback
+                    const startAudio = () => {
+                        bgm.play().then(() => {
+                            musicBtn.classList.remove('muted');
+                            musicBtn.querySelector('.text').textContent = 'Music On';
+                        }).catch(console.error);
+                        document.removeEventListener('click', startAudio);
+                        document.removeEventListener('keydown', startAudio);
+                        document.removeEventListener('touchstart', startAudio);
+                    };
+                    document.addEventListener('click', startAudio, { once: true });
+                    document.addEventListener('keydown', startAudio, { once: true });
+                    document.addEventListener('touchstart', startAudio, { once: true });
+                });
+            };
+
+            // Try immediately
+            attemptPlay();
         }
 
         // ============================================
