@@ -606,7 +606,7 @@
                 { url: 'photos/IMG_20251208_172040.jpg', title: 'Dec 8 Tea', date: 'Memory 55' },
                 { url: 'photos/IMG_20251208_173711.jpg', title: 'Dec 8 Sunset', date: 'Memory 56' }
             ],
-            petalCount: 400,
+            petalCount: 150,
             vortexRadius: { min: 2, max: 5 },
             vortexHeight: 10,
             bloomStrength: 0.8,
@@ -1349,7 +1349,9 @@
             handVelocity.x *= 0.9;
             handVelocity.y *= 0.9;
 
-            composer.render();
+            // Render scene (bloom disabled for performance)
+            renderer.render(scene, camera);
+            // composer.render();
         }
 
         // ============================================
