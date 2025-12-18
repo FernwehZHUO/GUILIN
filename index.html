@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guilin Memoir - Cherry Blossom Memories</title>
-    <meta name="description" content="A romantic photo memoir of our Guilin journey together">
+    <title>桂林回忆录 - 樱花树下的记忆</title>
+    <meta name="description" content="刘文静同学和陈卓同学的桂林之旅 - 2025年12月5号到2025年12月10号">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Outfit:wght@200;300;400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
 
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
@@ -48,7 +46,7 @@
             overflow: hidden;
             background: linear-gradient(135deg, var(--purple-950) 0%, #1a0a2e 50%, #2d1b3d 100%);
             color: var(--cream);
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Noto Serif SC', serif;
             min-height: 100vh;
         }
 
@@ -144,7 +142,7 @@
         }
 
         .loading-text {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Noto Serif SC', serif;
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: 0.3em;
@@ -261,7 +259,7 @@
         }
 
         .site-title {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Noto Serif SC', serif;
             font-size: 2.5rem;
             font-weight: 300;
             letter-spacing: 0.15em;
@@ -487,7 +485,7 @@
             <div class="loading-petal"></div>
             <div class="loading-petal"></div>
         </div>
-        <p class="loading-text">Gathering Memories</p>
+        <p class="loading-text">正在收集美好回忆...</p>
         <div class="loading-bar">
             <div id="loading-progress" class="loading-progress"></div>
         </div>
@@ -508,26 +506,25 @@
         <div class="corner-decoration bottom-right"></div>
 
         <div class="header-panel">
-            <h1 class="site-title">Guilin Memories</h1>
-            <p class="site-subtitle">A Journey Through Cherry Blossoms</p>
+            <h1 class="site-title">刘文静同学和陈卓同学的桂林</h1>
+            <p class="site-subtitle">2025年12月5号 到 2025年12月10号</p>
         </div>
 
         <button id="music-toggle" class="music-toggle">
             <span class="icon">🎵</span>
-            <span class="text">Music On</span>
+            <span class="text">音乐: 开</span>
         </button>
 
         <div class="photo-counter">
             <div class="counter-number" id="photo-count">12</div>
-            <div class="counter-label">Memories</div>
+            <div class="counter-label">美好瞬间</div>
         </div>
 
         <div class="status-panel">
-            <div class="status-text" id="status-text">Initializing Hand Tracking</div>
+            <div class="status-text" id="status-text">正在初始化手势追踪...</div>
             <button id="enable-camera-btn"
-                style="display:none; margin: 10px auto; padding: 8px 16px; background: rgba(253, 164, 175, 0.2); border: 1px solid var(--rose-300); color: var(--rose-200); border-radius: 20px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.8rem; transition: all 0.3s;">Enable
-                Camera</button>
-            <p class="instruction-text">Pinch to select • Wave to close</p>
+                style="display:none; margin: 10px auto; padding: 8px 16px; background: rgba(253, 164, 175, 0.2); border: 1px solid var(--rose-300); color: var(--rose-200); border-radius: 20px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.8rem; transition: all 0.3s;">启用摄像头</button>
+            <p class="instruction-text">捏合选中 • 挥手关闭</p>
         </div>
     </div>
 
@@ -537,8 +534,8 @@
             <button class="modal-close" id="modal-close">×</button>
             <img id="modal-image" class="modal-image" src="" alt="Selected memory">
             <div class="modal-caption">
-                <h2 class="modal-title" id="modal-title">Memory Title</h2>
-                <p class="modal-date" id="modal-date">December 2024</p>
+                <h2 class="modal-title" id="modal-title">美好回忆</h2>
+                <p class="modal-date" id="modal-date">2025年12月</p>
             </div>
         </div>
     </div>
@@ -609,7 +606,7 @@
             petalCount: 150,
             vortexRadius: { min: 2, max: 5 },
             vortexHeight: 10,
-            bloomStrength: 0.8,
+            bloomStrength: 0.3,
             bloomRadius: 0.4,
             bloomThreshold: 0.2
         };
@@ -736,12 +733,12 @@
                 if (bgm.paused) {
                     bgm.play().then(() => {
                         musicBtn.classList.remove('muted');
-                        musicBtn.querySelector('.text').textContent = 'Music On';
+                        musicBtn.querySelector('.text').textContent = '音乐: 开';
                     }).catch(console.error);
                 } else {
                     bgm.pause();
                     musicBtn.classList.add('muted');
-                    musicBtn.querySelector('.text').textContent = 'Music Off';
+                    musicBtn.querySelector('.text').textContent = '音乐: 关';
                 }
             });
 
@@ -750,14 +747,14 @@
                 bgm.play().then(() => {
                     // Success
                     musicBtn.classList.remove('muted');
-                    musicBtn.querySelector('.text').textContent = 'Music On';
+                    musicBtn.querySelector('.text').textContent = '音乐: 开';
                 }).catch(e => {
                     console.log("Autoplay blocked, waiting for interaction...");
                     // Interaction fallback
                     const startAudio = () => {
                         bgm.play().then(() => {
                             musicBtn.classList.remove('muted');
-                            musicBtn.querySelector('.text').textContent = 'Music On';
+                            musicBtn.querySelector('.text').textContent = '音乐: 开';
                         }).catch(console.error);
                         document.removeEventListener('click', startAudio);
                         document.removeEventListener('keydown', startAudio);
@@ -1062,12 +1059,12 @@
             camera.start()
                 .then(() => {
                     console.log('Camera started');
-                    document.getElementById('status-text').innerText = 'Searching for hand...';
+                    document.getElementById('status-text').innerText = '正在寻找手势...';
                     document.getElementById('enable-camera-btn').style.display = 'none';
                 })
                 .catch(err => {
                     console.error('Camera error:', err);
-                    document.getElementById('status-text').innerText = 'Camera Access Required';
+                    document.getElementById('status-text').innerText = '需要摄像头权限';
                     document.getElementById('enable-camera-btn').style.display = 'block';
                 });
         }
@@ -1092,7 +1089,7 @@
             const cursorEl = document.getElementById('gesture-cursor');
 
             if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                statusEl.innerText = 'Vortex Control Active';
+                statusEl.innerText = '手势控制已激活';
                 const landmarks = results.multiHandLandmarks[0];
 
                 const indexTip = landmarks[8];
@@ -1144,7 +1141,7 @@
 
                 cursorEl.classList.toggle('pinching', isPinching);
             } else {
-                statusEl.innerText = 'Searching for hand...';
+                statusEl.innerText = '正在寻找手势...';
                 cursorEl.style.display = 'none';
             }
         }
@@ -1180,7 +1177,7 @@
 
             // Show cursor and update status
             cursorEl.style.display = 'block';
-            statusEl.innerText = 'Mouse Control Active';
+            statusEl.innerText = '鼠标控制已激活';
 
             // Mouse move
             document.addEventListener('mousemove', (e) => {
